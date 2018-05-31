@@ -2,7 +2,16 @@
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		char decision;
+		Main_menu key = new Main_menu();
+		
+		do{
+			decision = key.menu();
+			System.out.println(decision);
+			
+		}while(decision != 'E');
+		
+		
 	}
 
 }

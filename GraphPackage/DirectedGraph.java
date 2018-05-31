@@ -267,7 +267,7 @@ public class DirectedGraph<T> implements GraphInterface<T>
             {
                 return 0;
             }
-            else if(otherEntry.cost > cost)
+            else if(otherEntry.cost < cost)
             {
                 return 1;
             }
