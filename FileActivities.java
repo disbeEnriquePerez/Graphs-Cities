@@ -9,6 +9,7 @@ public class FileActivities {
 	{
 		city = new File("Graphs-Cities/city.dat");
 		UserInput = new Scanner(System.in);
+		
 		if(!city.exists())
 		{
 			try {
@@ -21,6 +22,17 @@ public class FileActivities {
 		}
 
 		try {
+			CityScann = new Scanner(city);
+		}catch(Exception ex) {
+			System.out.println("Error reading city.dat: ");
+		}
+	}
+	public Scanner getScanner()
+	{
+		return CityScann;
+	}
+	public void resetScanner()
+	{	try {
 			CityScann = new Scanner(city);
 		}catch(Exception ex) {
 			System.out.println("Error reading city.dat: ");
@@ -39,10 +51,11 @@ public class FileActivities {
 			{
 				System.out.printf("%-15s%-15s%-15s%-15s%-15s\n", "CityCode:","Abbreviation:","City Name:","Population:","Elevation:");
 				System.out.printf("%-15s%-15s%-15s%-15s%-15s\n", CityCode,CityScann.next(),CityScann.next(),CityScann.next(),CityScann.next());
+				resetScanner();
 				return;
 			}
 		}
-		
+		resetScanner();
 		System.out.println("\nCity with code: " + input + " Not Found\n");
 		
 		
