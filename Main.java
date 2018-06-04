@@ -5,9 +5,15 @@ import GraphPackage.GraphInterface;
 
 public class Main {
 
+/*
+ * NOTE: DEBUGING HAS NOT BEEN FULLY DONE YET THERE ARE BUGS THAT CAN BE ENCOUNTERED WHILE USING THIS PROGRAM.
+ * BECAREFUL AND MAKE SURE TO ENTER CODE PROPERLY OR ELSE UNPREDICATABLE ERRORS COULD OCCUR AND BE FATAL
+ */
+	
 	public static void main(String[] args) {
 		char decision;
-		
+		// THIS CLASS IN CHARGE OF THE INTERFACE
+		// AND CREATING THE DECISION MAKER AND DIRECTED GRAPH
 		GraphInterface<String> map = new DirectedGraph<>();
 		DecisionMaker Decision = new DecisionMaker(map);
 		

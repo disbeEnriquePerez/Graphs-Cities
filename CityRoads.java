@@ -107,5 +107,6 @@ public class CityRoads {
 		
 		file.addNewRoad(Citycode, Citycode2, Weight, map.getNumberOfEdges());
 		map.addEdge(Citycode, Citycode2, weight);
+		
 	}
 }

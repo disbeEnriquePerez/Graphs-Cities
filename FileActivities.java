@@ -6,12 +6,24 @@ public class FileActivities {
 	private File road;
 	private Scanner CityScann, RoadScann, UserInput;
 	
+	
+	
+	/*
+	 * NOTE: WHEN USING THE ADD ROAD OR ADD CITY THE MAIN IDEA IS THAT WE ARE USING THE AMOUNT OF EDGES/VERTICES
+	 * THEN ADDING ONE TO IT... WE THEN CREATE AN ARRAY OF STRINGS AND READ FROM THAT FILE FROM THE STRINGS 
+	 * WE OBTAIN FROM READING THE FILE WE FIGURE OUT WHERE TO PUT IT THE INSERT THAT NEWLY MADE STRING INTO THE ARRAY 
+	 * OF STRING WHICH EACH LINE IS A LINE IN THE FILE.
+	 * */
+	
 	public FileActivities()
 	{
 		city = new File("Graphs-Cities/city.dat");
 		road = new File("Graphs-Cities/road.dat");
 		UserInput = new Scanner(System.in);
 		
+		// THIS IS TO FIGURE OUT IF THE CITY.DAT EXISTS OR NOT 
+		// IF IT DOESNT TRY TO MAKE A FILE THEN CLOSE IT
+		// THEN HAVE CITY POINT TO THAT NEWLY CREATED FILE
 		if(!city.exists())
 		{
 			try {
@@ -22,11 +34,16 @@ public class FileActivities {
 				System.out.println("Error Creating city.dat: ");
 			}
 		}
+		// TO INITALLY CREATE A SCANNER TO THE CITY FILE
 		try {
 			CityScann = new Scanner(city);
 		}catch(Exception ex) {
 			System.out.println("Error reading city.dat: ");
 		}
+		
+		// THIS IS TO FIGURE OUT IF ROADS.DAT EXISTS OR NOT 
+		// IF IT DOESNT TRY TO MAKE A FILE THEN CLOSE IT
+		// THEN HAVE ROAD POINT TO THAT NEWLY CREATED FILE
 		if(!road.exists())
 		{
 			try {
@@ -37,6 +54,7 @@ public class FileActivities {
 				System.out.println("Error Creating City.dat: ");
 			}
 		}
+		//TO INTIALLY CREATE A SCANNER TO THE ROAD FILE
 		try {
 			RoadScann = new Scanner(road);
 		}catch(Exception ex) {
@@ -44,13 +62,20 @@ public class FileActivities {
 		}
 	
 	}
+	
+	// TO GET THE CITY SCANNER
 	public Scanner getCityScanner()
 	{
 		return CityScann;
 	}
+	
+	// TO GET THE ROAD SCANNER
 	public Scanner getRoadScanner() {
 		return RoadScann;
 	}
+	
+	//WE USE THE FILES SO MUCH THAT WE NEED TO RESET THE LINE READER AND SET IT BACK TO THE BEGINNING 
+	// SO AT THE ENDING OF ABOUT EVERY FUNCTION WE RESET THE SCANNERS
 	public void resetScanner()
 	{	try {
 			CityScann = new Scanner(city);
@@ -67,6 +92,7 @@ public class FileActivities {
 		}
 	}
 	
+	// WHEN TRYING TO ADD IN A NEW CITY 
 	public void newCity(int Vertice) {
 		
 		try {
@@ -82,7 +108,10 @@ public class FileActivities {
 				CityName = UserInput.next();
 				
 				Abbreviation = Abbreviation.toUpperCase();
-						
+				
+				// SOME TIMES WHEN WE ARE CREATING A CITY TO ADD IN 
+				// WE GET A CITY WITH A SPACE IN BETWEEN THE TWO WORDS
+				// Ex. NEW YORK THIS FOR LOOP WILL HELP US FIGURE THIS OUT
 				for(int times = 0 ; times < 2 ; ++times) {
 					String variable = UserInput.next();
 				
@@ -127,8 +156,6 @@ public class FileActivities {
 			while(Scann.hasNext())
 				{
 					String line = Scann.nextLine();
-					System.out.println(index);
-					System.out.println(line);
 					Cities[index] = line ;
 					++index; 
 				}
@@ -154,6 +181,8 @@ public class FileActivities {
 		
 		resetScanner();
 	}
+	// WHEN ADDING A CITY WE NEED TO KNOW IF THAT CITY ALREADY EXISTS OR NOT 
+	// THIS FUNCTION WILL FIGURE OUT IF THAT NEW CITY WE JUST ADDED ALREADY EXISTS OR NOT
 	private boolean ExistsCityName(String CityName)
 	{
 		while(CityScann.hasNext())
@@ -171,6 +200,8 @@ public class FileActivities {
 		resetScanner();
 		return false;
 	}
+	// WHEN ADDING A CITY WE NEED TO KNOW IF THAT CITY ALREAD EXISTS OR NOT
+	// THIS FUNCTION WILL FIGURE OUT IF THAT NEW CITY WE JUST ADDED ALREADY EXISTS OR NOT
 	private boolean ExistsAbbre(String Abbreviation)
 	{
 		while(CityScann.hasNext())
@@ -187,6 +218,12 @@ public class FileActivities {
 		resetScanner();
 		return false;
 	}
+	
+	// THIS FUNCTION WILL MODIFY THE ROAD FILE AND FIGURE OUT WHERE TO PUT THE NEW STRING INTO 
+	// THE EDGES ARRAY WHICH EACH INDEX CONTAINS A LINE FROM THE ROADS FILE
+	// ONCE WE FIGURE OUT WHERE TO PUT IT WE PLACE IT IN AND CONTINUE TO READ FROM THE FILE
+	// ONCE WE ARE DONE WE CREATE A PRINTWRITER TO READ FROM THE ARRAY AND WRITE INTO THE NEW FILE
+	// THEN WE HAVE ROADS POINT TO THAT NEW FILE
 	public void addNewRoad(String code1, String code2, String weight, int numberofEdges)
 	{
 		if(!isConnected(code1, code2)) {
@@ -214,16 +251,7 @@ public class FileActivities {
 							++index ;
 							once = false;
 						}
-						temp = Citycode1;
-						
-						/**
-						if(code1.equals(Citycode) && once)
-							{
-								edges[index] = WRITE;
-								++index;
-								once = false;
-							}*/
-						
+						temp = Citycode1;		
 						edges[index] = Scanner2.nextLine();
 						++index;
 						RoadScann.nextLine();
@@ -241,7 +269,8 @@ public class FileActivities {
 				Scanner2.close();
 				file2.close();
 				road = new File("Graphs-Cities/road.dat");
-					
+				
+				System.out.println("You have inserted a road from " +   getCityName(getCityAbbree(code1)) + " to " + getCityName(getCityAbbree(code2)) + " with a distance of " + weight + "\n");
 					
 				}catch(Exception ex){
 					//FIX
@@ -340,6 +369,11 @@ public class FileActivities {
 	
 	private boolean isInteger(String s)
 	{
+		//we use this function when reading in from the user
+		// sometimes we get a city name with a space in it 
+		// EX. NEW YORK.... NEW is read nicely but YORK?
+		// how do we know if its a string or an integer 
+		// this will help us
 		boolean isValidInteger = false;
 		try
 	      {
@@ -352,8 +386,10 @@ public class FileActivities {
 	 
 	      return isValidInteger;
 	}
+	// this function helps us figure out what the city name is by entering the city abbreviation 
 	public String getCityName(String CityAbrre)
 	{
+		
 		String CityName;
 		while(CityScann.hasNext())
 		{
@@ -372,7 +408,7 @@ public class FileActivities {
 		}
 		return "ERROR";
 	}
-
+	// this function helps us get the city code by enter the city abbreviation
 	public String getCityCode(String CityAbbreviation)
 		{		
 			String code ;
@@ -392,6 +428,7 @@ public class FileActivities {
 			resetScanner();
 			return null;
 		}
+	// this function helps us figure out the city abbreviation by entering the city code
 	public String getCityAbbree(String CityCode)
 	{
 		String CityAbbre;
@@ -412,6 +449,7 @@ public class FileActivities {
 	}
 	public void Citycode() 
 	{
+		String Abbreviation, City_Name, Population = "", Elevation;
 		
 		System.out.print("Please Enter the City code for the City info (Ex. AN) : ");
 		String input = UserInput.nextLine();
@@ -421,8 +459,24 @@ public class FileActivities {
 			
 			if(code.equals(CityCode))
 			{
+				Abbreviation = CityScann.next();
+				City_Name = CityScann.next();
+				
+				for(int times = 0 ; times < 2 ; ++times) {
+					String variable = CityScann.next();
+				
+					if(!isInteger(variable))
+						City_Name += " " + variable;
+					else {
+						Population = variable;
+						times = 1;
+					}
+				}
+				
+				Elevation = CityScann.next();
+				
 				System.out.printf("%-15s%-15s%-15s%-15s%-15s\n", "CityCode:","Abbreviation:","City Name:","Population:","Elevation:");
-				System.out.printf("%-15s%-15s%-15s%-15s%-15s\n", CityCode,CityScann.next(),CityScann.next(),CityScann.next(),CityScann.next());
+				System.out.printf("%-15s%-15s%-15s%-15s%-15s\n", CityCode,Abbreviation,City_Name,Population,Elevation);
 				resetScanner();
 				return;
 			}
