@@ -27,7 +27,10 @@ public class Main {
 	{
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Q Display city information by entering a city code");
+		System.out.println("Z Enter a new City to the Graph");
+		System.out.println("S Is Connected? Are two Cities Connected?");
 		System.out.println("D Find the minimum distance between two cities");
+		System.out.println("T Find the the Shortest path between two cities" );
 		System.out.println("I Insert a road by entering two city codes and a distance");
 		System.out.println("R Remove an existing road by entering two city codes");
 		System.out.println("E Exit");
@@ -41,9 +44,18 @@ public class Main {
 			case 'Q':
 			case 'q':
 					return 'Q'; 
+			case 'Z':
+			case 'z':
+					return 'Z';
+			case 'S':
+			case 's':
+					return 'S';
 			case 'D':
 			case 'd':
 					return 'D';
+			case 'T':
+			case 't':
+					return 'T';
 			case 'I':
 			case 'i':
 					return 'I';

@@ -104,7 +104,6 @@ public class DirectedGraph<T> implements GraphInterface<T>
         QueueInterface<VertexInterface<T>> vertexQueue = new LinkedQueue<>();
         VertexInterface<T> originVertex = vertices.get(begin);
         VertexInterface<T> endVertex = vertices.get(end);
-
         originVertex.visit();
         vertexQueue.enqueue(originVertex);
 
@@ -153,7 +152,63 @@ public class DirectedGraph<T> implements GraphInterface<T>
     @Override
     public double getCheapestPath(T begin, T end, StackInterface<T> path)
     {
-        return 0;
+    	resetVertices();
+		boolean done = false;
+
+		// use EntryPQ instead of Vertex because multiple entries contain 
+		// the same vertex but different costs - cost of path to vertex is EntryPQ's priority value
+		PriorityQueue<EntryPQ> priorityQueue = new PriorityQueue<EntryPQ>();
+		
+		VertexInterface<T> originVertex = vertices.get(begin);
+		VertexInterface<T> endVertex = vertices.get(end);
+
+		priorityQueue.add(new EntryPQ(originVertex, 0, null));
+	
+		while (!done && !priorityQueue.isEmpty())
+		{
+			EntryPQ frontEntry = priorityQueue.remove();
+			VertexInterface<T> frontVertex = frontEntry.getVertex();
+			
+			if (!frontVertex.isVisited())
+			{
+				frontVertex.visit();
+				frontVertex.setCost(frontEntry.getCost());
+				frontVertex.setPredecessor(frontEntry.getPredecessor());
+				
+				if (frontVertex.equals(endVertex))
+					done = true;
+				else 
+				{
+					Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
+					Iterator<Double> edgeWeights = frontVertex.getWeightIterator();
+					while (neighbors.hasNext())
+					{
+						VertexInterface<T> nextNeighbor = neighbors.next();
+						Double weightOfEdgeToNeighbor = edgeWeights.next();
+						
+						if (!nextNeighbor.isVisited())
+						{
+							double nextCost = weightOfEdgeToNeighbor + frontVertex.getCost();
+							priorityQueue.add(new EntryPQ(nextNeighbor, nextCost, frontVertex));
+						} // end if
+					} // end while
+				} // end if
+			} // end if
+		} // end while
+
+		// traversal ends, construct cheapest path
+		double pathCost = endVertex.getCost();
+		path.push(endVertex.getLabel());
+		
+		VertexInterface<T> vertex = endVertex;
+		while (vertex.hasPredecessor())
+		{
+			vertex = vertex.getPredecessor();
+			path.push(vertex.getLabel());
+		} // end while
+
+		return pathCost;
+       
     }
 
     @Override
