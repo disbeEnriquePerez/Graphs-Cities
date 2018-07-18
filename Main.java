@@ -39,6 +39,7 @@ public class Main {
 		System.out.println("T Find the the Shortest path between two cities" );
 		System.out.println("I Insert a road by entering two city codes and a distance");
 		System.out.println("R Remove an existing road by entering two city codes");
+		System.out.println("B Show all cities");
 		System.out.println("E Exit");
 		System.out.print("Command?: ");
 		String string = keyboard.nextLine();
@@ -68,6 +69,9 @@ public class Main {
 			case 'R':
 			case 'r':
 					return 'R';
+			case 'B':
+			case 'b':
+					return 'B';
 			case 'E':
 			case 'e':
 					return 'E';

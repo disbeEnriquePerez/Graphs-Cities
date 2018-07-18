@@ -61,6 +61,9 @@ public class DecisionMaker {
 				this.map = new DirectedGraph<>();
 				this.load.load();
 				break;
+		case 'B':
+				file.CityNames();
+				break;
 		}
 	}
 }

@@ -386,6 +386,19 @@ public class FileActivities {
 	 
 	      return isValidInteger;
 	}
+	public void CityNames()
+	{
+		String output = "";
+		while(CityScann.hasNext())
+		{
+			CityScann.next();
+			output += CityScann.next() + "  " + CityScann.next() + "\n";
+			CityScann.nextLine();
+		}
+		System.out.println(output);
+		resetScanner();
+		
+	}
 	// this function helps us figure out what the city name is by entering the city abbreviation 
 	public String getCityName(String CityAbrre)
 	{
